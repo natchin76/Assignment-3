@@ -12,32 +12,30 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 def f(x,y):
     return(np.exp(-(x**2+y**2)))
-xmin=-15
-xmax=15
-ymin=-15
-ymax=15
-n=64
+xmin=-25
+xmax=25
+ymin=-25
+ymax=25
+n=128
 a=np.zeros([n,2])
 dx=(xmax-xmin)/(n-1)
 dy=(ymax-ymin)/(n-1)
-a[:,0]=np.linspace(xmin,xmax,n)
-a[:,1]=np.linspace(ymin,ymax,n)
-f_x=np.zeros([n,n])
-for i in range(n):
-    for j in range(n):
-        f_x[i,j]=f(a[i,0],a[j,1])
+xarr=np.linspace(xmin,xmax,n)
+yarr=np.linspace(ymin,ymax,n)
+X, Y = np.meshgrid(xarr, yarr)
+f_x=f(X,Y)
 f_q=np.fft.fft2(f_x,norm='ortho')
 kxarr=2*np.pi*np.fft.fftfreq(n,d=dx)
 kyarr=2*np.pi*np.fft.fftfreq(n,d=dy)
 fctrx=np.exp(-1j*kxarr*xmin)
 fctry=np.exp(-1j*kyarr*ymin)
-aft=np.zeros([n,n])
-for i in range(n):
-    for j in range(n):
-        aft[i][j]=dx*dy*n/(2*np.pi)*fctrx[i]*fctry[j]*f_q[i,j]
+aft=(dx*dy*(n/(2.0*np.pi))*fctrx*fctry*f_q)
+Kx, Ky=np.meshgrid(kxarr,kyarr)
 
 fig = plt.figure()
 ax = fig.gca(projection='3d')
-surf = ax.plot_surface(kxarr, kyarr, aft)
+ax.set_xlabel("kx")
+ax.set_ylabel("ky")
+surf = ax.contour3D(Kx, Ky, abs(aft),100)
 plt.show()
 
