@@ -11,8 +11,8 @@ def f(x):
     if abs(x)>1:
         return(0)
     return(1)           
-xmin=-25
-xmax=25
+xmin=-5
+xmax=5
 n=256
 x=np.linspace(xmin,xmax,n)
 dx=(xmax-xmin)/(n-1)
@@ -29,5 +29,10 @@ ift=np.fft.ifft(gft,norm='ortho')
 xarr=2*np.pi*np.fft.fftfreq(n,d=dk)
 fctrx=np.exp(-1j*xarr*xmin)
 con=dk*np.sqrt(n/(2*np.pi))*fctrx*ift
-plt.scatter(xarr,con)
-
+plt.scatter(xarr,con,label='Convolution')
+x=np.linspace(-2,2,50)
+y=np.zeros(50)
+for i in range(50):
+    y[i]=f(x[i])
+plt.plot(x,y,label='Box function')
+plt.legend()
