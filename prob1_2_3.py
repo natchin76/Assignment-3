@@ -8,11 +8,7 @@ I imported the results from C file here to plot
 """
 import numpy as np
 from matplotlib import pyplot as plt
-fname='prob2.txt'
-ft_c_2=np.loadtxt(fname,usecols=0)
-k_c_2=np.loadtxt(fname,usecols=1)
-fname='prob3.txt'
-ft_c_3=np.loadtxt(fname,usecols=0)
+
 
 def f(x):
     return(np.sin(x)/x)
@@ -30,17 +26,32 @@ karr=2*np.pi*np.fft.fftfreq(n,d=dx)
 fctr=np.exp(-1j*karr*xmin)
 ft=np.fft.fft(y,norm='ortho')
 aft=dx*np.sqrt(n/(2*np.pi))*fctr*ft
-plt.scatter(karr,aft)
+plt.scatter(karr,aft,label='using dft')
 k=np.linspace(-2,2,50)
 ft=[]
 for i in range(50):
     ft.append(ft_ext(k[i]))
-plt.plot(k,ft)
+plt.plot(k,ft,label='analytical')
+plt.legend()
 plt.show()
-plt.scatter(k_c_2,ft_c_2)
+#data imported from FFTW file
+fname='prob2.txt'
+ft_c_2=np.loadtxt(fname,usecols=0)
+k_c_2=np.loadtxt(fname,usecols=1)
+#data imported from gsl file
+fname='prob3.txt'
+ft_c_3=np.loadtxt(fname,usecols=0)
+plt.scatter(karr,aft,label='using dft')
+plt.scatter(k_c_2,ft_c_2,label='using FFTW')
+plt.scatter(k_c_2,ft_c_3,label='using GSL')
+plt.legend()
 plt.show()
-plt.scatter(k_c_2,ft_c_3)
-
+plt.scatter(k_c_2,ft_c_2,label='using FFTW')
+plt.legend()
+plt.show()
+plt.scatter(k_c_2,ft_c_3,label='using GSL')
+plt.legend()
+plt.show()
 
 
 
