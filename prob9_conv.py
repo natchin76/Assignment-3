@@ -20,16 +20,19 @@ y=np.zeros(n)
 for i in range(n):
     y[i]=f(x[i])
 karr=2*np.pi*np.fft.fftfreq(n,d=dx)
+karr=np.fft.fftshift(karr)
 fctr=np.exp(-1j*karr*xmin)
 ft=np.fft.fft(y,norm='ortho')
 aft=dx*np.sqrt(n/(2*np.pi))*fctr*ft
-gft=np.sqrt(2*np.pi)*aft**2
+gft=np.zeros(n)
+for i in range(n):
+    gft[i]=np.sqrt(2*np.pi)*aft[i]**2
 dk=karr[1]-karr[0]
-ift=np.fft.ifft(gft,norm='ortho')
 xarr=2*np.pi*np.fft.fftfreq(n,d=dk)
+ift=np.fft.ifft(gft,norm='ortho')
 fctrx=np.exp(-1j*xarr*xmin)
 con=dk*np.sqrt(n/(2*np.pi))*fctrx*ift
-plt.scatter(xarr,con,label='Convolution')
+plt.scatter(xarr,abs(con),label='Convolution')
 x=np.linspace(-2,2,50)
 y=np.zeros(50)
 for i in range(50):
