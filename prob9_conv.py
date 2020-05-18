@@ -13,7 +13,7 @@ def f(x):
     return(1)           
 xmin=-5
 xmax=5
-n=256
+n=512
 x=np.linspace(xmin,xmax,n)
 dx=(xmax-xmin)/(n-1)
 y=np.zeros(n)
