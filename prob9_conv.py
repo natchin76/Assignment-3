@@ -23,7 +23,7 @@ ft=np.fft.fft(y,norm='ortho')
 gt=ft**2
 con=np.sqrt(n)*dx*np.fft.ifft(gt,norm='ortho')
 con=np.fft.fftshift(con)
-plt.scatter(x,abs(con),label='Convolution')
+plt.scatter(x,con,label='Convolution')
 x=np.linspace(-2,2,50)
 y=np.zeros(50)
 for i in range(50):
